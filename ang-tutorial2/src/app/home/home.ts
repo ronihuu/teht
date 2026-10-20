@@ -18,20 +18,14 @@ export class Home {
   housingLocationList = signal<HousingLocationInfo[]>([]);
   //Luodaan signal-muuttuja searchText, joka sisältää hakusanan
   searchText = signal<string>('');
-
-  //Luodaan computed-muuttuja filteredLocationList, joka sisältää suodatetun listan housinglocationeista hakusanan perusteella
+  //Luodaan signal-muuttuja filteredLocationList, joka sisältää suodatetun listan housinglocationeista hakusanan perusteella
   filteredLocationList = computed<HousingLocationInfo[]>(() => {
-    //haetaan hakusana, muutetaan se pieniksi kirjaimiksi ja poistetaan mahdolliset välilyönnit
-    const search = this.searchText().toLowerCase().trim();
-
-    //jos hakusanaa ei ole annettu, palautetaan koko lista
-    if (!search) {
+    const text = this.searchText();
+    if (!text) {
       return this.housingLocationList();
     }
-
-    //suodatetaan housinglocationit hakusanan perusteella
-    return this.housingLocationList().filter((location) =>
-      location.city.toLowerCase().includes(search),
+    return this.housingLocationList().filter((housingLocation) =>
+      housingLocation.city.toLowerCase().includes(text.toLowerCase()),
     );
   });
 
@@ -41,6 +35,24 @@ export class Home {
       .getAllHousingLocations()
       .subscribe((housingLocationList: HousingLocationInfo[]) => {
         this.housingLocationList.set(housingLocationList);
+        //this.filteredLocationList.set(housingLocationList);
       });
   }
+
+  getSearchText(e: Event) {
+    this.searchText.set((e.target as HTMLInputElement).value);
+  }
+
+  /* filterResults(text: string) {
+    //päivitetään filteredLocationList signal-muuttuja suodatetulla listalla
+    if (!text) {
+      this.filteredLocationList.set(this.housingLocationList());
+      return;
+    }
+    this.filteredLocationList.set(
+      this.housingLocationList().filter((housingLocation) =>
+        housingLocation.city.toLowerCase().includes(text.toLowerCase()),
+      ),
+    );
+  } */
 }

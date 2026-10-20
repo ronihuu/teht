@@ -6,13 +6,13 @@ import { HttpClient } from '@angular/common/http';
 
 @Service()
 export class HousingService {
-  api = 'api/locations'; // valepalvelimen eli in-memory-web-apin osoite
+  url = 'http://localhost:3000/locations'; // Url-osoite, josta haetaan housinglocationit
 
   private http = inject(HttpClient); //Httpclientin injektointi
 
   // Tehdään palvelimelle pyyntö jolla haetaan koko locations-taulukko observablena
   getAllHousingLocations(): Observable<HousingLocationInfo[]> {
-    return this.http.get<HousingLocationInfo[]>(this.api);
+    return this.http.get<HousingLocationInfo[]>(this.url);
   }
 
   /* http-olion get-metodi palauttaa observablen.
@@ -21,7 +21,7 @@ export class HousingService {
   */
   //Hakee yhden housinglocationin id:een perusteella
   getHousingLocationById(id: number): Observable<HousingLocationInfo | undefined> {
-    return this.http.get<HousingLocationInfo>(`${this.api}/${id}`).pipe(
+    return this.http.get<HousingLocationInfo>(`${this.url}/${id}`).pipe(
       catchError((error) => {
         console.error('Tapahtui virhe: ', error);
         return throwError(() => new Error(error.message || 'Tuntematon virhe'));
