@@ -1,0 +1,6 @@
+Sovellus toimii niin, että in-memory-data.service.ts tiedostossa on valetietokannan datat,
+service.ts luo sille interfacen/rajapinnan joka määrittää objektien standardin.
+content.service.ts noutaa api/content osoitteesta taulukon, jossa on jokaisen sivun sisältö.
+Sovelluksen komponentit kuten navbar ja page, käyttävät content.servicen luokassa määriteltyjä metodeja noutaakseen tietoa.
+Tämä on tehty siksi, koska suoraan komponentteihin yhdistäminen on riskialtista, ylimääräistä koodia ja sekavaa sovellusarkkitehtuuria.
+Page-komponetti hakee koko content-taulukon ja sen jälkeen etsii verkkoosoitteessa olevaan id:eeseen sopivan arvon taulukosta
