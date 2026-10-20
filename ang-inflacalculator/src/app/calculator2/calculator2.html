@@ -1,0 +1,8 @@
+<div>
+  <p>Vanha hinta:<input type="number" [(ngModel)]="price" /></p>
+  <p>Uusi hinta:<input type="number" [(ngModel)]="newprice" /></p>
+  <p>
+    <input type="button" value="Laske inflaatio" (click)="calculateInflation()" />
+  </p>
+  <h3>Inflaatio: {{ result }}</h3>
+</div>
