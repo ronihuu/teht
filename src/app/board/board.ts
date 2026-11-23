@@ -20,6 +20,8 @@ export class Board implements OnInit {
   squares!: string[]; // Taulukko jossa on pelin tila, eli arvoja: '', 'X', '0'
   xIsNext!: boolean; // Kertoo kumpi on seuraavaksi vuorossa
   winner!: string; // Kertoo voittajan '', 'X' tai '0'
+  tie!: boolean; // Kertoo onko peli päättynyt tasapeliin
+  moves!: number; // Kertoo montako siirtoa on tehty
 
   ngOnInit() {
     this.newGame(); // newGame suoritetaan aina kun komponentti latautuu muistiin
@@ -29,8 +31,10 @@ export class Board implements OnInit {
     // Kun uusi peli alkaa, pelin muuttujat alustetaan.
     // Squares-taulukkoon laitetaan 9 tyhjää paikkaa
     this.squares = Array(9).fill('');
-    this.xIsNext = true;
+    this.xIsNext = this.xIsNext; // Häviäjä aloittaa aina seuraavan pelin
     this.winner = '';
+    this.tie = false;
+    this.moves = 0;
   }
 
   /*
@@ -53,6 +57,9 @@ export class Board implements OnInit {
 
   // makeMove(index: number) laittaa ristin tai nollan squares -taulukkoon indeksiin index
   makeMove(index: number) {
+    if (this.winner) {
+      return; // Jos voittaja on jo olemassa, ei tehdä mitään
+    }
     // Paikan johon risti tai nolla laitetaan pitää olla tyhjä, eli ''
     if (!this.squares[index]) {
       // splice-metodi poistaa indeksistä alkion ja laittaa
@@ -63,6 +70,15 @@ export class Board implements OnInit {
     // Yritetään määritellä voittaja. Metodi tuottaa 'X', '0' tai ''
     // tilanteesta riippuen. Jos voittaja on olemassa, se näytetään templaatissa.
     this.winner = this.calculateWinner();
+    this.moves++;
+    this.calculateTie();
+  }
+
+  calculateTie() {
+    // Jos kaikki ruudut on täytetty eikä voittajaa ole, peli päättyy tasapeliin
+    if (this.moves === 9 && !this.winner) {
+      this.tie = true;
+    }
   }
 
   // Metodi joka määrittää pelin voittajan

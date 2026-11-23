@@ -13,11 +13,14 @@
    -metodille. Event binding: click -event bindataan makeMove($index)
    -metodiin -->
   @for (val of squares; track $index) {
-  <app-square [value]="val" (click)="makeMove($index)"> </app-square>
+    <app-square [value]="val" (click)="makeMove($index)"> </app-square>
   }
 </div>
 
 <!-- Kappale näytetään vain jos winner on true eli winner on olemassa-->
-@if(winner){
-<p>Pelaaja {{ winner }} voitti pelin!</p>
+@if (winner) {
+  <p>Pelaaja {{ winner }} voitti pelin!</p>
+}
+@if (tie) {
+  <p>Peli päättyi tasan!</p>
 }
