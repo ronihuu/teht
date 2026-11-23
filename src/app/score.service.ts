@@ -1,6 +1,6 @@
 /*score.service.ts sisältää metodit localstoragen käsittelyyn*/
 
-import { Service } from '@angular/core';
+import { Servic } from '@angular/core';
 
 @Service()
 export class ScoreService {
