@@ -5,6 +5,8 @@ sovelluslogiikan.
 
 import { Component, OnInit } from '@angular/core';
 import { Square } from '../square/square';
+import { Score } from '../score';
+import { ScoreService } from '../score.service';
 
 @Component({
   selector: 'app-board',
@@ -22,8 +24,13 @@ export class Board implements OnInit {
   winner!: string; // Kertoo voittajan '', 'X' tai '0'
   tie!: boolean; // Kertoo onko peli päättynyt tasapeliin
   moves!: number; // Kertoo montako siirtoa on tehty
+  scores!: Score; // Pistetilanne, joka sisältää X:n ja O:n pisteet
+  line!: number[]; // Kertoo voittajan rivin indeksit, eli taulukko
+
+  constructor(private scoreService: ScoreService) {}
 
   ngOnInit() {
+    this.scoreService.initScores(); // pistetilanne 0-0 alustetaan localStorageen
     this.newGame(); // newGame suoritetaan aina kun komponentti latautuu muistiin
   }
   // newGame() -metodin suoritus käynnistää uuden pelin
@@ -35,6 +42,13 @@ export class Board implements OnInit {
     this.winner = '';
     this.tie = false;
     this.moves = 0;
+    this.scores = this.scoreService.getScores(); // Haetaan pistetilanne localStoragesta
+    this.line = []; // Alustetaan voittajan rivi tyhjäksi
+  }
+
+  resetScores() {
+    this.scoreService.initScores();
+    this.scores = this.scoreService.getScores();
   }
 
   /*
@@ -95,11 +109,15 @@ export class Board implements OnInit {
     ];
     for (const line of lines) {
       const [a, b, c] = line;
+      // tässä if-lohkossa löytyy voittaja
       if (
         this.squares[a] &&
         this.squares[a] === this.squares[b] &&
         this.squares[a] === this.squares[c]
       ) {
+        this.line = line; // asetetaan voittajan rivin indeksit line-propertyyn
+        this.scoreService.addScore(this.squares[a]); // lisätään voittajan pisteet localStorageen
+        this.scores = this.scoreService.getScores(); // päivitetään pistetilanne
         return this.squares[a]; // palautetaan 'X' tai '0'
       }
     }

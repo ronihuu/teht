@@ -1,26 +1,49 @@
-<!-- (click) on event binding. Templaatin event on bindattu luokan metodiin-->
-<button (click)="newGame()">Uusi peli</button>
-
-<p>Vuorossa pelaaja: {{ player }}</p>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="container-fluid d-flex flex-column align-items-center">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#collapsibleNavbar"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav text-center">
+        <li class="nav-item">
+          <button (click)="newGame()">Uusi peli</button>
+        </li>
+        <li class="nav-item">
+          <button (click)="resetScores()">Nollaa pistetilanne</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
 <!--Peli tehdään tämän divin sisälle. Sisällä olevat elementit on laitettu CSS-gridiin.-->
-<div class="board">
-  <!--@for toistaa  app-square -elementtiä niin kauan kuin
+<div class="container p-5 my-5 bg-primary text-white text-center">
+  <p>Vuorossa pelaaja: {{ player }}</p>
+  <div class="board">
+    <!--@for toistaa  app-square -elementtiä niin kauan kuin
     squares-taulukossa on alkioita, eli 9 kertaa -->
-  <!-- val bindataan square-komponentin value-muuttujaan
+    <!-- val bindataan square-komponentin value-muuttujaan
          se viittaa siis squares-taulukon alkoihin -->
-  <!-- taulukon jokaisen alkion index välitetään makeMove($index)
+    <!-- taulukon jokaisen alkion index välitetään makeMove($index)
    -metodille. Event binding: click -event bindataan makeMove($index)
    -metodiin -->
-  @for (val of squares; track $index) {
-    <app-square [value]="val" (click)="makeMove($index)"> </app-square>
+    @for (val of squares; track $index) {
+      <app-square [value]="val" [index]="$index" [line]="line" (click)="makeMove($index)">
+      </app-square>
+    }
+  </div>
+  <p>Pistetilanne: X {{ scores.X }} - O {{ scores.O }}</p>
+
+  <!-- Kappale näytetään vain jos winner tai tie on true eli winner tai tie on olemassa-->
+  @if (winner) {
+    <p>Pelaaja {{ winner }} voitti pelin!</p>
+  }
+  @if (tie) {
+    <p>Peli päättyi tasan!</p>
   }
 </div>
-
-<!-- Kappale näytetään vain jos winner on true eli winner on olemassa-->
-@if (winner) {
-  <p>Pelaaja {{ winner }} voitti pelin!</p>
-}
-@if (tie) {
-  <p>Peli päättyi tasan!</p>
-}
