@@ -1,0 +1,26 @@
+<!-- Calculator-komponentin käyttöliittymätemplaatti -->
+
+<!-- Templaatti on HTML-sivu, joka sisältää Angularin omaa
+templaattisyntaksia. Templaatissa on komponentin käyttöliittymä.-->
+
+<!--[(ngModel)]-attribuutti tekee inputista Angularin sisäisen lomake-elementin ja
+mahdollistaa datan sidonnan eli data bindingin templaatista luokkaan ja toisinpäin.
+Eli templaatin input-kenttään kirjoitettu numero menee luokan val1 -muuttujaan ja 
+jos val1 muuttuu luokassa, muutos näkyy heti templaatissa. [[]] on kaksisuuntaisen 
+data bindingin merkintä. FormsModule pitää ottaa käyttöön app-module.ts:ssä jotta 
+Angularin lomakkeita voi käyttää.
+
+(click) on event-binding joka sitoo templaatissa tapahtuvan tapahtuman,
+eli tässä napin klikkauksen, luokan metodiin.
+
+{{}} on interpolation binding joka sitoo luokan muuttujan 
+templaattiin. Se on yleisin ja yksinkertaisin data-binding. -->
+
+<div>
+  <p>Vanha hinta:<input type="number" [(ngModel)]="price" /></p>
+  <p>Inflaatio:<input type="number" [(ngModel)]="percent" /></p>
+  <p>
+    <input type="button" value="Laske inflaatio" (click)="calculateInflation()" />
+  </p>
+  <h3>Tulos: {{ result }}</h3>
+</div>

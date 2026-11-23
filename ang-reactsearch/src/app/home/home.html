@@ -1,0 +1,10 @@
+<section>
+  <!-- Reaktiivinen hakukenttä signaaleilla toteutettuna. 
+   Hakutermi lähtee eventtinä.-->
+  <input type="text" placeholder="Hae tekstistä" (input)="searchText($event)" />
+</section>
+<section class="results">
+  @for (content of filteredC(); track $index) {
+  <app-card [content]="content"> </app-card>
+  }
+</section>

@@ -1,0 +1,11 @@
+@if (pageContent()) {
+  <div>
+    <h3>{{ pageContent().name }}</h3>
+    <img src="{{ pageContent().img }}" />
+    <ul>
+      <li>{{ pageContent().data1 }}</li>
+      <li>{{ pageContent().data2 }}</li>
+      <li>{{ pageContent().data3 }}</li>
+    </ul>
+  </div>
+}
